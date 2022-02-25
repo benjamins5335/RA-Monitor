@@ -1,3 +1,5 @@
+import json
+import threading
 import requests
 from bs4 import BeautifulSoup as bs
 import time
@@ -10,8 +12,12 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 
 # atc link: type=addBasket&ticketId=479660&shippingTypeId=8&quantity=1&eventId=1495307&currencyId=1&referrer=https%3A%2F%2Fra.co%2Fevents%2F1495307&isEmbedTickets=true
-webhook = "https://discordapp.com/api/webhooks/646488319148163073/asoW2-tyA3JzAvdOgGRlE8hfnr0_p-AKZ0_PpyVhC9s1JRQtlAAeQWb7GYKsBbq_4VCv"
-delay = 10000
+with open('config.json') as data:
+    data = json.load(data)
+    
+webhook = data['webhook']
+delay = data['delay']
+urlArray = data['urls']
 
 def run(eventCode):
     url = "https://ra.co/events/" + eventCode
@@ -56,14 +62,10 @@ def run(eventCode):
             print("not in stock. retrying...")
             browser.refresh()
 
-    
-
-
 
 if __name__ == "__main__":
-    print("Sparks: 1492035")
-    print("Hector Oaks: 1386829")
-    print("Ben UFO: 1495342")
-    eventCode = input("Enter event code: ")
-    # eventCode = "1492035"
-    run(eventCode)
+
+    for link in urlArray:
+        thread = threading.Thread(target=run, args=[link])
+        thread.start()
+        time.sleep(delay/(len(urlArray)*1000))
