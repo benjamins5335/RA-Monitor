@@ -1,14 +1,10 @@
 import json
 import threading
 import requests
-from bs4 import BeautifulSoup as bs
 import time
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 
 # atc link: type=addBasket&ticketId=479660&shippingTypeId=8&quantity=1&eventId=1495307&currencyId=1&referrer=https%3A%2F%2Fra.co%2Fevents%2F1495307&isEmbedTickets=true
@@ -24,7 +20,6 @@ def run(eventCode):
     
     print("Using Home IP")
     browser = webdriver.Chrome("drivers/chromedriver")
-    # browser = webdriver.Chrome("../chromedriver")
     
     browser.get(url)
     
